@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sweet 17 Asha Zefanya</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+
+body{
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+font-family:Poppins,sans-serif;
+background:linear-gradient(-45deg,#ff9a9e,#fad0c4,#fbc2eb,#a6c1ee,#84fab0,#8fd3f4);
+background-size:400% 400%;
+animation:gradient 12s ease infinite;
+overflow:hidden;
+}
+
+@keyframes gradient{
+0%{background-position:0% 50%;}
+50%{background-position:100% 50%;}
+100%{background-position:0% 50%;}
+}
+
+/* GIFT */
+.gift{
+position:absolute;
+width:200px;
+height:200px;
+background:linear-gradient(135deg,#ff2e63,#ff7eb3);
+border-radius:25px;
+display:flex;
+justify-content:center;
+align-items:center;
+color:white;
+font-weight:bold;
+cursor:pointer;
+box-shadow:0 0 40px rgba(255,0,100,.7);
+transition:1s;
+font-size:18px;
+text-align:center;
+padding:10px;
+}
+
+.gift.hide{
+transform:scale(0);
+opacity:0;
+}
+
+/* BOOK */
+.book{
+display:none;
+position:relative;
+perspective:2000px;
+width:90vw;
+max-width:400px;
+height:85vh;
+max-height:600px;
+}
+
+.page{
+position:absolute;
+width:100%;
+height:100%;
+background:white;
+border-radius:20px;
+box-shadow:0 20px 60px rgba(0,0,0,.4);
+transform-origin:left;
+transition:transform 0.8s ease;
+padding:20px;
+overflow:auto;
+backface-visibility:hidden;
+}
+
+.page h1{
+color:#ff2e63;
+text-align:center;
+margin-bottom:15px;
+font-size:clamp(18px,4vw,22px);
+}
+
+.page p{
+color:#222;
+font-size:clamp(13px,3.5vw,15px);
+line-height:1.6;
+text-align:center;
+white-space:pre-line;
+}
+
+.page img{
+width:100%;
+border-radius:15px;
+margin-top:15px;
+object-fit:cover;
+}
+
+/* CONTROLS */
+.controls{
+position:absolute;
+bottom:-60px;
+left:50%;
+transform:translateX(-50%);
+display:flex;
+gap:10px;
+}
+
+button{
+padding:10px 20px;
+border:none;
+border-radius:25px;
+background:#ff2e63;
+color:white;
+cursor:pointer;
+font-size:14px;
+transition:0.3s;
+}
+
+button:hover{
+background:#ff4d88;
+transform:scale(1.05);
+}
+
+/* CONFETTI */
+.confetti{
+position:absolute;
+width:8px;
+height:8px;
+top:-10px;
+animation:fall linear forwards;
+}
+
+@keyframes fall{
+to{transform:translateY(100vh) rotate(360deg);}
+}
+
+/* LAPTOP MODE IMPROVEMENT */
+@media(min-width:900px){
+.book{
+max-width:450px;
+max-height:650px;
+}
+}
+</style>
+</head>
+<body>
+
+<div class="gift" id="gift" onclick="openGift()">
+Tap Buka Kado 🎁
+</div>
+
+<div class="book" id="book">
+
+<div class="page">
+<h1>🎉 Happy Sweet Seventeen Asha Zefanya 🎉</h1>
+<p>
+Finally 17 ya 😌✨  
+Masuk era glow up.  
+Bukan cuma nambah umur,  
+tapi naik level jadi main character.
+
+fotonya bisa di slide kebawah hehe
+</p>
+</div>
+
+<div class="page">
+<h1>📸 Throwback</h1>
+<img src="asha1.jpeg">
+<p>
+gw gatau mau tulis apa disini
+aseli ini cuma hal random gw aja
+tapi intinya happy sweet seventeen
+</p>
+</div>
+
+<div class="page">
+<h1>✨ Growing Up</h1>
+<img src="asha2.jpeg">
+<p>
+Jujur
+ini hal paling random yang pernah gw lakuin
+tapi yaaa gw ga lupa sama ultah lu
+</p>
+</div>
+
+<div class="page">
+<h1>💖 Final Page</h1>
+<img src="asha3.jpeg">
+<p>
+Jujur gw gada foto lagi yang mau gw masukin
+plenger bat muka gw wkwkwkwwk
+</p>
+</div>
+
+<div class="controls">
+<button onclick="prev()">⬅</button>
+<button onclick="next()">➡</button>
+</div>
+
+</div>
+
+<audio id="music" loop>
+<source src="music1.mpeg" type="audio/mp3">
+</audio>
+
+<script>
+let current = 0;
+const pages = document.querySelectorAll(".page");
+const total = pages.length;
+
+pages.forEach((page, index)=>{
+page.style.zIndex = total - index;
+});
+
+function openGift(){
+document.getElementById("gift").classList.add("hide");
+setTimeout(()=>{
+document.getElementById("gift").style.display="none";
+document.getElementById("book").style.display="block";
+startMusic();
+confetti();
+},800);
+}
+
+function next(){
+if(current < total){
+pages[current].style.transform="rotateY(-180deg)";
+current++;
+}
+}
+
+function prev(){
+if(current > 0){
+current--;
+pages[current].style.transform="rotateY(0deg)";
+}
+}
+
+function startMusic(){
+let audio=document.getElementById("music");
+audio.volume=0;
+audio.play();
+let fade=setInterval(()=>{
+if(audio.volume<1){
+audio.volume+=0.05;
+}else{
+clearInterval(fade);
+}
+},200);
+}
+
+function confetti(){
+for(let i=0;i<40;i++){
+let c=document.createElement("div");
+c.className="confetti";
+c.style.left=Math.random()*100+"vw";
+c.style.backgroundColor="hsl("+Math.random()*360+",100%,50%)";
+c.style.animationDuration=(Math.random()*3+2)+"s";
+document.body.appendChild(c);
+
+setTimeout(()=>{c.remove();},5000);
+}
+}
+</script>
+
+</body>
+</html>
